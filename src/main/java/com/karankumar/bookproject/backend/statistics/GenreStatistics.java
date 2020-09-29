@@ -46,11 +46,11 @@ public class GenreStatistics extends Statistics {
         BookGenre mostReadBookGenre = null;
         for (BookGenre bookGenre : genresReadCount.keySet()) {
             int genreCount = genresReadCount.get(bookGenre);
-            if (genreCount != 0) {
+            if (genreCount != 0)
                 if (mostReadBookGenre == null || genresReadCount.get(mostReadBookGenre) < genreCount) {
                     mostReadBookGenre = bookGenre;
                 }
-            }
+
         }
         return mostReadBookGenre;
     }
@@ -113,7 +113,7 @@ public class GenreStatistics extends Statistics {
     }
 
     private Map<BookGenre, Double> populateEmptyGenreRatings() {
-        // we only want genres int this map that exist in the read books shelf
+        // we only want genres in this map that exist in the read books shelf
         Map<BookGenre, Double> genreMap = new HashMap<>();
         for (Book book : readBooksWithGenresAndRatings) {
             genreMap.put(book.getBookGenre(), 0.0);
@@ -128,7 +128,6 @@ public class GenreStatistics extends Statistics {
     public BookGenre findLeastLikedGenre() {
         BookGenre leastLikedBookGenre = null;
         List<Map.Entry<BookGenre, Double>> genreRatings = sortGenresByRatings();
-        System.out.println("Genre ratings: " + genreRatings);
         if (!genreRatings.isEmpty()) {
             leastLikedBookGenre = genreRatings.get(0)
                                           .getKey();
@@ -139,11 +138,15 @@ public class GenreStatistics extends Statistics {
     private List<Book> findReadBooksWithGenresAndRatings() {
         List<Book> booksWithGenresAndRatings = new ArrayList<>();
         for (Book book : readShelfBooks) {
-            if (book.getBookGenre() != null && book.getRating() != null &&
-                    book.getRating() != RatingScale.NO_RATING) {
+            if (bookHasGenreAndRating(book)) {
                 booksWithGenresAndRatings.add(book);
             }
         }
         return booksWithGenresAndRatings;
+    }
+
+    private boolean bookHasGenreAndRating(Book book) {
+        return book.getBookGenre() != null && book.getRating() != null &&
+                book.getRating() != RatingScale.NO_RATING;
     }
 }
