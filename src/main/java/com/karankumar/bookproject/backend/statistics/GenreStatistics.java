@@ -25,7 +25,6 @@ import com.karankumar.bookproject.backend.service.PredefinedShelfService;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -119,7 +118,7 @@ public class GenreStatistics extends Statistics {
 
     private Map<BookGenre, Double> populateEmptyGenreRatings() {
         // we only want genres in this map that exist in the read books shelf
-        Map<BookGenre, Double> genreMap = new HashMap<>();
+        Map<BookGenre, Double> genreMap = new EnumMap<>(BookGenre.class);
         for (Book book : readBooksWithGenresAndRatings) {
             genreMap.put(book.getBookGenre(), 0.0);
         }
