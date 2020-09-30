@@ -46,13 +46,17 @@ public class GenreStatistics extends Statistics {
         BookGenre mostReadBookGenre = null;
         for (BookGenre bookGenre : genresReadCount.keySet()) {
             int genreCount = genresReadCount.get(bookGenre);
-            if (genreCount != 0)
-                if (mostReadBookGenre == null || genresReadCount.get(mostReadBookGenre) < genreCount) {
-                    mostReadBookGenre = bookGenre;
-                }
-
+            if (isGenreTheMostRead(genreCount, mostReadBookGenre, genresReadCount)) {
+                mostReadBookGenre = bookGenre;
+            }
         }
         return mostReadBookGenre;
+    }
+
+    private boolean isGenreTheMostRead(int genreReadCount, BookGenre mostReadGenre,
+                                       HashMap<BookGenre, Integer> genresReadCount) {
+        return genreReadCount != 0 &&
+                (mostReadGenre == null || genresReadCount.get(mostReadGenre) < genreReadCount);
     }
 
     private HashMap<BookGenre, Integer> populateEmptyGenreCount() {
@@ -87,7 +91,7 @@ public class GenreStatistics extends Statistics {
         List<Map.Entry<BookGenre, Double>> genreRatings = sortGenresByRatings();
         if (!genreRatings.isEmpty()) {
             mostLikedBookGenre = genreRatings.get(genreRatings.size() - 1)
-                                         .getKey();
+                                             .getKey();
         }
         return mostLikedBookGenre;
     }
@@ -130,7 +134,7 @@ public class GenreStatistics extends Statistics {
         List<Map.Entry<BookGenre, Double>> genreRatings = sortGenresByRatings();
         if (!genreRatings.isEmpty()) {
             leastLikedBookGenre = genreRatings.get(0)
-                                          .getKey();
+                                              .getKey();
         }
         return leastLikedBookGenre;
     }
